@@ -1,9 +1,12 @@
 import java.awt.Graphics;
+import java.awt.Point;
 
 public abstract class Figure {
-	protected int x;
-	protected int y;
-	abstract void draw(Graphics g);
+	protected Point start;
+	protected Point end;
+	protected int startX;
+	protected int startY;
+	protected abstract void draw(Graphics g);
 }
 
 
@@ -11,16 +14,16 @@ class Rect extends Figure {
 	private int width;
 	private int height;
 	
-	public Rect(int x, int y, int width, int height) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+	public Rect(Point s, Point e) {
+		this.startX = s.x < e.x ? s.x : e.x;
+		this.startY = s.y < e.y ? s.y : e.y;
+		this.width = Math.abs(s.x - e.x);
+		this.height = Math.abs(s.y - e.y);
 	}
 	
 	@Override
 	public void draw(Graphics g) {
-		g.drawRect(this.x, this.y, width, height);
+		g.drawRect(this.startX, this.startY, width, height);
 	}
 }
 
@@ -29,16 +32,16 @@ class Oval extends Figure {
 	private int width;
 	private int height;
 	
-	public Oval(int x, int y, int width, int height) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+	public Oval(Point s, Point e) {
+		this.startX = s.x < e.x ? s.x : e.x;
+		this.startY = s.y < e.y ? s.y : e.y;
+		this.width = Math.abs(s.x - e.x);
+		this.height = Math.abs(s.y - e.y);
 	}
 	
 	@Override
 	public void draw(Graphics g) {
-		g.drawOval(this.x, this.y, width, height);
+		g.drawOval(this.startX, this.startY, width, height);
 	}
 }
 
@@ -49,11 +52,11 @@ class Line extends Figure {
 	private int x2;
 	private int y2;
 	
-	public Line(int x1, int y1, int x2, int y2) {
-		this.x1 = x1;
-		this.y1 = y1;
-		this.x2 = x2;
-		this.y2 = y2;
+	public Line(Point s, Point e) {
+		this.x1 = s.x;
+		this.y1 = s.y;
+		this.x2 = e.x;
+		this.y2 = e.y;
 	}
 	
 	@Override
@@ -66,14 +69,14 @@ class Line extends Figure {
 class Text extends Figure {
 	private String str;
 	
-	public Text(String str, int x, int y) {
+	public Text(String str, Point s) {
 		this.str = str;
-		this.x = x;
-		this.y = y;
+		this.startX = s.x;
+		this.startY = s.y;
 	}
 	
 	@Override
 	public void draw(Graphics g) {
-		g.drawString(this.str, this.x, this.y);
+		g.drawString(this.str, this.startX, this.startY);
 	}
 }
