@@ -1,35 +1,41 @@
+import javax.swing.JPanel;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+
 import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
+
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-import javax.swing.JPanel;
 
 public class MyPanel extends JPanel{
+	// fields.
 	Point start;
 	Point end;
-	ArrayList<Figure> fList; // 그린 도형.
-	ArrayList<Button> bList; // 도형 버튼.
-	int buttonType;
 	
 	BufferedImage img; // image.
 	
-	Button btnRect;
-	Button btnOval;
-	Button btnLine;
+	ArrayList<Figure> fList; // 그린 도형.
+	ArrayList<MyButton> bList; // 도형 버튼.
+	int buttonType;
+	
+	MyButton btnRect;
+	MyButton btnOval;
+	MyButton btnLine;
 	
 	static int RECT_INPUT = 1;
 	static int OVAL_INPUT = 2;
 	static int LINE_INPUT = 3;
 	static int TEXT_INPUT = 4;
 	
-	class MyListener implements MouseListener {
+	// MouseListener.
+	class MyMouseListener implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -45,25 +51,14 @@ public class MyPanel extends JPanel{
 		
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
 			System.out.println("Up " + e.getX() + ", " + e.getY());
 			end = e.getPoint();
 
-			Button b = findBtn(end);
-			setButtonType(b);
-			
-			
-			if(buttonType == RECT_INPUT) {
-				Figure f = new Rect(start, end);
-				addFigure(f);
-			} else if (buttonType == OVAL_INPUT) {
-				Figure f = new Oval(start, end);
-				addFigure(f);
-			} else if(buttonType == LINE_INPUT){
-				Figure f = new Line(start, end);
-				addFigure(f);
+			MyButton b = findBtn(end);
+			if (b != null) {
+				setButtonType(b);
 			}
-			
+			addFigure();
 			repaint();
 		}
 
@@ -81,12 +76,13 @@ public class MyPanel extends JPanel{
 				
 	}
 	
+	//constructor.
 	public MyPanel() {
-		setBackground(Color.lightGray);
-		this.addMouseListener(new MyListener());
+		this.setBackground(Color.lightGray);
+		this.addMouseListener(new MyMouseListener());
 		
-		fList = new ArrayList<Figure>(); 
-		bList = new ArrayList<Button>();
+		this.fList = new ArrayList<Figure>(); 
+		this.bList = new ArrayList<MyButton>();
 		
 		this.buttonType = 0;
 		this.initialBtn();
@@ -94,15 +90,17 @@ public class MyPanel extends JPanel{
 		this.start = null;
 		this.end = null;
 		
-		img = null;
+		this.img = null;
+		
 		try {
-		    img = ImageIO.read(new File("DUKE.PNG"));
+		    this.img = ImageIO.read(new File("DUKE.PNG"));
 		} catch (IOException e) {
 		    System.out.println("Cannot open image file.");
 		}
 
 	}
 	
+	// my panel methods.
 	@Override
 	public void paint(Graphics g) {
 		System.out.println("draw");
@@ -114,7 +112,7 @@ public class MyPanel extends JPanel{
 				bList.get(i).drawBtn(g);
 			}
 		}
-		
+
 		if(!(fList.isEmpty())) {
 			for(int i = 0 ; i < fList.size(); i++) {
 				fList.get(i).draw(g);
@@ -125,27 +123,34 @@ public class MyPanel extends JPanel{
 
 	}
 	
-	@Override
-	public void paintComponent(Graphics g) {
-		
-	}
-	
-	public void addFigure(Figure f) {
-		System.out.println("add.");
-		fList.add(f);
+	public void addFigure() {
+		if(buttonType == RECT_INPUT) {
+			Figure f = new Rect(start, end);
+			fList.add(f);
+		} else if (buttonType == OVAL_INPUT) {
+			Figure f = new Oval(start, end);
+			fList.add(f);
+		} else if(buttonType == LINE_INPUT){
+			Figure f = new Line(start, end);
+			fList.add(f);
+		}
 	}
 	
 	public void initialBtn() {
-		btnRect = new FigureBtn("Rect", 10, 10);
-		btnOval = new FigureBtn("Oval", 100, 10);
-		btnLine = new FigureBtn("Line", 190, 10);
+		btnRect = new FigureBtn("Rect");
+		btnOval = new FigureBtn("Oval");
+		btnLine = new FigureBtn("Line");
+		
+		btnRect.setBounds(10, 10, 80, 40);  
+		btnOval.setBounds(100, 10, 80, 40);
+		btnLine.setBounds(190, 10, 80, 40);
 		
 		bList.add(btnRect);
 		bList.add(btnOval);
 		bList.add(btnLine);
 	}
 	
-	public Button findBtn(Point p) {
+	public MyButton findBtn(Point p) {
 		if(!(bList.isEmpty())) {
 			for(int i = 0 ; i < bList.size(); i++) {
 				if(bList.get(i).isCursorOn(p)) {
@@ -156,7 +161,7 @@ public class MyPanel extends JPanel{
 		return null;
 	}
 	
-	public void setButtonType(Button b) {
+	public void setButtonType(MyButton b) {
 		if(b != null) {
 			if(b == btnRect) {
 				buttonType = RECT_INPUT;

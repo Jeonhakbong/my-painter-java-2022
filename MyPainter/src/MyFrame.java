@@ -1,5 +1,3 @@
-import java.awt.Graphics;
-import java.util.ArrayList;
 
 import javax.swing.JFrame;
 

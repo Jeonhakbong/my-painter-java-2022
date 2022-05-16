@@ -1,29 +1,33 @@
 import java.awt.Graphics;
 import java.awt.Point;
 
-import javax.swing.JPanel;
 
-public abstract class Button {
+public abstract class MyButton {
 	protected String name;
 	protected int x;
 	protected int y;
 	protected int width;
 	protected int height;
 	
-	public Button(String name, int x, int y) {
+	public MyButton(String name) {
 		this.name = name;
-		this.x = x;
-		this.y = y;
-		this.width = 80;
-		this.height = 40;
 	}
+	protected abstract void setBounds(int x, int y, int w, int h);
 	protected abstract void drawBtn(Graphics g);
 	protected abstract boolean isCursorOn(Point p);
 }
 
-class FigureBtn extends Button {
-	public FigureBtn(String name, int x, int y) {
-		super(name, x, y);
+class FigureBtn extends MyButton {
+	public FigureBtn(String name) {
+		super(name);
+	}
+	
+	@Override 
+	public void setBounds(int x, int y, int w, int h) {
+		this.x = x;
+		this.y = y;
+		this.width = w;
+		this.height = h;
 	}
 	
 	@Override
