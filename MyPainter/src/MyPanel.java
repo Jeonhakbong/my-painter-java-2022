@@ -18,7 +18,7 @@ public class MyPanel extends JPanel{
 	ArrayList<Button> bList; // 도형 버튼.
 	int buttonType;
 	
-	BufferedImage img;
+	BufferedImage img; // image.
 	
 	Button btnRect;
 	Button btnOval;
@@ -121,7 +121,7 @@ public class MyPanel extends JPanel{
 			}
 		}
 		
-		g.drawImage(img, 0,0, 450,450, null);
+		g.drawImage(img, 700, 10, 250,250, null);
 
 	}
 	
