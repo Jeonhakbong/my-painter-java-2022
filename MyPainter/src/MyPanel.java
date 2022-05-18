@@ -1,5 +1,7 @@
+
 import javax.swing.JPanel;
 
+import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -21,8 +23,8 @@ public class MyPanel extends JPanel{
 	
 	BufferedImage img; // image.
 	
-	ArrayList<Figure> fList; // 그린 도형.
-	ArrayList<MyButton> bList; // 도형 버튼.
+	ArrayList<Figure> fList; // painted figure.
+	ArrayList<MyButton> bList; // figure button.
 	int buttonType;
 	
 	MyButton btnRect;
@@ -32,54 +34,12 @@ public class MyPanel extends JPanel{
 	static int RECT_INPUT = 1;
 	static int OVAL_INPUT = 2;
 	static int LINE_INPUT = 3;
-	static int TEXT_INPUT = 4;
 	
-	// MouseListener.
-	class MyMouseListener implements MouseListener {
-
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
-			// System.out.println("Clicked " + e.getX() + ", " + e.getY());
-		}
-		
-		@Override
-		public void mousePressed(MouseEvent e) {
-			System.out.println("Down " + e.getX() + ", " + e.getY());
-			start = e.getPoint();
-		}
-		
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			System.out.println("Up " + e.getX() + ", " + e.getY());
-			end = e.getPoint();
-
-			MyButton b = findBtn(end);
-			if (b != null) {
-				setButtonType(b);
-			}
-			addFigure();
-			repaint();
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-			// System.out.println("Entered " + e.getX() + ", " + e.getY());
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-			// System.out.println("Exited " + e.getX() + ", " + e.getY());
-		}
-				
-	}
-	
-	//constructor.
+	// constructor.
 	public MyPanel() {
 		this.setBackground(Color.lightGray);
-		this.addMouseListener(new MyMouseListener());
+		// this.addMouseListener(new MyMouseListener());
+		this.enableEvents(AWTEvent.MOUSE_EVENT_MASK);
 		
 		this.fList = new ArrayList<Figure>(); 
 		this.bList = new ArrayList<MyButton>();
@@ -102,6 +62,30 @@ public class MyPanel extends JPanel{
 	
 	// my panel methods.
 	@Override
+	public void processMouseEvent(MouseEvent e) {
+		switch(e.getID()) {
+			case MouseEvent.MOUSE_PRESSED:
+				System.out.println("Down");
+				start = e.getPoint();
+				break;
+			case MouseEvent.MOUSE_RELEASED:
+				System.out.println("UP");
+				end = e.getPoint();
+				addFigure();
+				repaint();
+			case MouseEvent.MOUSE_CLICKED:
+				System.out.println("Click");
+				
+				MyButton b = findBtn(end);
+				if (b != null) {
+					System.out.println("button");
+					b.processMouseEvent(e);
+				}
+				break;
+		}
+	}
+	
+	@Override
 	public void paint(Graphics g) {
 		System.out.println("draw");
 		
@@ -119,8 +103,7 @@ public class MyPanel extends JPanel{
 			}
 		}
 		
-		g.drawImage(img, 700, 10, 250,250, null);
-
+		g.drawImage(img, 500, 10, 250,250, null);
 	}
 	
 	public void addFigure() {
@@ -141,9 +124,13 @@ public class MyPanel extends JPanel{
 		btnOval = new FigureBtn("Oval");
 		btnLine = new FigureBtn("Line");
 		
-		btnRect.setBounds(10, 10, 80, 40);  
-		btnOval.setBounds(100, 10, 80, 40);
-		btnLine.setBounds(190, 10, 80, 40);
+		btnRect.setBounds(10, 10);  
+		btnOval.setBounds(100, 10);
+		btnLine.setBounds(190, 10);
+		
+		btnRect.addMyActionListener(new MyRectListener(this));
+		btnOval.addMyActionListener(new MyOvalListener(this));
+		btnLine.addMyActionListener(new MyLineListener(this));
 		
 		bList.add(btnRect);
 		bList.add(btnOval);
@@ -161,13 +148,16 @@ public class MyPanel extends JPanel{
 		return null;
 	}
 	
-	public void setButtonType(MyButton b) {
+	public void setButtonType(Object b) {
 		if(b != null) {
 			if(b == btnRect) {
+				System.out.println("Rect");
 				buttonType = RECT_INPUT;
 			} else if(b== btnOval) {
+				System.out.println("Oval");
 				buttonType = OVAL_INPUT;
 			} else if(b==btnLine){
+				System.out.println("Line");
 				buttonType = LINE_INPUT;
 			}
 		}
