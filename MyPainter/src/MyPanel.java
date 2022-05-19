@@ -52,11 +52,11 @@ public class MyPanel extends JPanel{
 		
 		this.img = null;
 		
-		try {
-		    this.img = ImageIO.read(new File("DUKE.PNG"));
-		} catch (IOException e) {
-		    System.out.println("Cannot open image file.");
-		}
+//		try {
+//		    this.img = ImageIO.read(new File("DUKE.PNG"));
+//		} catch (IOException e) {
+//		    System.out.println("Cannot open image file.");
+//		}
 
 	}
 	
@@ -128,9 +128,9 @@ public class MyPanel extends JPanel{
 		btnOval.setBounds(100, 10);
 		btnLine.setBounds(190, 10);
 		
-		btnRect.addMyActionListener(new MyRectListener(this));
-		btnOval.addMyActionListener(new MyOvalListener(this));
-		btnLine.addMyActionListener(new MyLineListener(this));
+		btnRect.addMyActionListener(new MyActionListener(this));
+		btnOval.addMyActionListener(new MyActionListener(this));
+		btnLine.addMyActionListener(new MyActionListener(this));
 		
 		bList.add(btnRect);
 		bList.add(btnOval);
@@ -153,10 +153,10 @@ public class MyPanel extends JPanel{
 			if(b == btnRect) {
 				System.out.println("Rect");
 				buttonType = RECT_INPUT;
-			} else if(b== btnOval) {
+			} else if(b == btnOval) {
 				System.out.println("Oval");
 				buttonType = OVAL_INPUT;
-			} else if(b==btnLine){
+			} else if(b == btnLine){
 				System.out.println("Line");
 				buttonType = LINE_INPUT;
 			}

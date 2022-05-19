@@ -60,7 +60,7 @@ class FigureBtn extends MyButton {
 	public void processMouseEvent(MouseEvent e) {
 		switch(e.getID()) {
 			case MouseEvent.MOUSE_CLICKED:
-				for(int i=0; i < myActListeners.size(); i++) {
+				for(int i = 0; i < myActListeners.size(); i++) {
 					myActListeners.get(i).actionPerformed(new ActionEvent(this, MouseEvent.MOUSE_CLICKED, ""));
 				}
 				break;

@@ -1,51 +1,14 @@
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-interface MyActionListener {
-	public void actionPerformed(ActionEvent e);
-}
-
-
-// three types of button action listener.
-class MyRectListener implements MyActionListener{
-	MyPanel mp; // panel parent.
-	
-	public MyRectListener(MyPanel mp) {
-		this.mp = mp;
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		mp.setButtonType(e.getSource());
-	}
-	
-}
-
-
-class MyOvalListener implements MyActionListener{
+public class MyActionListener implements ActionListener{
 	MyPanel mp;
-	
-	public MyOvalListener(MyPanel mp) {
+	public MyActionListener(MyPanel mp) {
 		this.mp = mp;
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent e) {
+	@Override public void actionPerformed(ActionEvent e) {
 		mp.setButtonType(e.getSource());
-	}
-	
+    }
 }
 
-
-class MyLineListener implements MyActionListener{
-	MyPanel mp;
-	
-	public MyLineListener(MyPanel mp) {
-		this.mp = mp;
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		mp.setButtonType(e.getSource());
-	}
-	
-}
