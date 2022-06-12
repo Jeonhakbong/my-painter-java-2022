@@ -1,3 +1,4 @@
+// package MyApp;
 
 import javax.swing.JButton;
 import javax.swing.JMenu;
@@ -125,6 +126,7 @@ public class MyPanel extends JPanel{
 		
 		this.figureType = 0;
 		this.colorType = null;
+		this.editType = null;
 		
 		// figure btn.
 		btnRect = new JButton("Rect");
@@ -186,6 +188,7 @@ public class MyPanel extends JPanel{
 	}
 	
 	public void setFigureType(Object b) {
+		editType = null;
 		if(b != null) {
 			if(b == btnRect) {
 				System.out.println("Rect");
