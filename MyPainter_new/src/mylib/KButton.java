@@ -7,18 +7,12 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class KButton extends KAbstractButton {
-	
-	
 	// constructor.
 	public KButton(String name) {
 		super(name);
 	}
 	
 	// methods.
-	public void addKActionListener(KActionListener al) {
-		myActListeners.add(al);
-	}
-	
 	@Override
 	public void processMouseEvent(MouseEvent e) {
 		switch(e.getID()) {

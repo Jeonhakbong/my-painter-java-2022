@@ -11,7 +11,7 @@ public class KMenuBar extends KContainer{
 		super(name);
 		this.mList = new ArrayList<>();
 		this.setBounds(10, 40);
-		this.setSize(500, 40);
+		this.setSize(225, 40);
 	}
 	@Override
 	public void paint(Graphics g) {

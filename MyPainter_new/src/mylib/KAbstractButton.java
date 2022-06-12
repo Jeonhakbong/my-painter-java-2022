@@ -13,8 +13,10 @@ public abstract class KAbstractButton extends KComponent{
 		super(name);
 		
 		this.width = 60;
-		this.height = 30;
-		myActListeners = new ArrayList<>();
+		this.height = 30; 
+		myActListeners = new ArrayList<>();		
 	}
-	
+	public void addKActionListener(KActionListener al) {
+		myActListeners.add(al);
+	}
 }

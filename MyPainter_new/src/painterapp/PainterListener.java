@@ -15,7 +15,7 @@ public class PainterListener implements KActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		pp.setFigureType(e.getSource());
+		pp.setType(e.getSource());
 	}
 	
 }
