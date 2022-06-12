@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import mylib.KComponent;
 
 public abstract class Figure extends KComponent{
-//	protected Point start;
-//	protected Point end;
 	protected int startX;
 	protected int startY;
 	protected int width;
@@ -19,8 +17,6 @@ public abstract class Figure extends KComponent{
 				((startY <= f.startY) && (f.startY <= (startY + height))) &&
 				((startY <= (f.startY + f.height)) && ((f.startY + f.height) <= (startY + height)));
 	}
-	// protected abstract void paint(Graphics g);
-	// protected abstract boolean isCursorOn(Point p);
 	protected abstract void move(Point ms, Point me);
 }
 

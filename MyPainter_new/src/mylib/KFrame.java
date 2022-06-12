@@ -13,11 +13,6 @@ public class KFrame extends KContainer{
 	public KFrame() {
 		contentPane = null;
 	}
-	
-	public void setKMenuBar(KMenuBar mb) {
-		// 원래 메뉴바는 frame에 있는게 정상이지만...
-		// add(mb);
-	}
 	public void setContentPane(KContainer kc) {
 		contentPane = kc;
 	}

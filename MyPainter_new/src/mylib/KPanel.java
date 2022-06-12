@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import painterapp.PainterButton;
-import painterapp.PainterListener;
+import painterapp.FigureListener;
 
 public class KPanel extends KContainer{
 	protected KToolBar toolBar;

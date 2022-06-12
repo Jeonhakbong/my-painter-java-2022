@@ -19,4 +19,15 @@ public abstract class KAbstractButton extends KComponent{
 	public void addKActionListener(KActionListener al) {
 		myActListeners.add(al);
 	}
+	@Override
+	public void processMouseEvent(MouseEvent e) {
+		switch(e.getID()) {
+			case MouseEvent.MOUSE_CLICKED:
+				for(int i = 0; i < myActListeners.size(); i++) {
+					myActListeners.get(i).actionPerformed(new ActionEvent(this, 
+															MouseEvent.MOUSE_CLICKED, ""));
+				}
+				break;
+		}
+	}
 }

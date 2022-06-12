@@ -6,10 +6,10 @@ import mylib.KActionListener;
 import mylib.KFrame;
 import mylib.KPanel;
 
-public class PainterListener implements KActionListener{
+public class FigureListener implements KActionListener{
 	PainterPanel pp;
 	
-	public PainterListener(PainterPanel p) {
+	public FigureListener(PainterPanel p) {
 		pp =  p;
 	}
 	
