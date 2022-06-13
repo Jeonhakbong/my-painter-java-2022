@@ -2,13 +2,10 @@ package painterapp;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Menu;
-import java.awt.Paint;
+
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
-import javax.swing.JButton;
 
 import mylib.KButton;
 import mylib.KCheckBox;
@@ -20,7 +17,7 @@ import mylib.KToolBar;
 
 public class PainterPanel extends KPanel{
 	
-	FigureListener fl = new FigureListener(this);
+	PaintListener pl = new PaintListener(this);
 	EditListener el = new EditListener(this);
 	ColorListener cl = new ColorListener(this);
 	
@@ -31,8 +28,8 @@ public class PainterPanel extends KPanel{
 	KButton btnOval;
 	KButton btnLine;
 	
-	KButton btnGroup;
 	KButton btnMove;
+	KButton btnGroup;
 	KButton btnClear;
 	
 	// menu.
@@ -42,28 +39,31 @@ public class PainterPanel extends KPanel{
 	// menuitem
 	KMenuItem miOpen;
 	KMenuItem miSave;
+	
 	KMenuItem miFull;
+	KMenuItem miMini;
 	
 	// checkbox.
 	KCheckBox cbRed;
 	KCheckBox cbBlue;
 	KCheckBox cbBlack;
 	
+	static int TYPE_DEFAULT = 0;
 	// type.
-	int figureType = 0; // 도형 타입.
+	int figureType = TYPE_DEFAULT; // 도형 타입.
 	static int RECT_BTN = 1;
 	static int OVAL_BTN = 2;
 	static int LINE_BTN = 3;
 	
-	int menuType = 0;
+	int menuType = TYPE_DEFAULT;
 	static int FILE_MENU = 4;
-	static int VIEW_MENU = 5;
+	static int EDIT_MENU = 5;
 	
-	int editType = 0;
+	int editType = TYPE_DEFAULT;
 	static int GROUP_MODE = 6;
 	static int MOVE_MODE = 7;
 	
-	int colorType = 0;
+	int colorType = TYPE_DEFAULT;
 	static int BLACK_COLOR = 8;
 	static int RED_COLOR = 9;
 	static int BLUE_COLOR = 10;
@@ -94,10 +94,11 @@ public class PainterPanel extends KPanel{
 		case MouseEvent.MOUSE_CLICKED:
 			System.out.println("Click");
 			
-			KComponent b = find(end);
+			KComponent b = findBtn(end);
+			
 			if (b != null) {
 				b.processMouseEvent(e);
-			}
+			} 
 			
 			break;
 		case MouseEvent.MOUSE_DRAGGED:
@@ -118,6 +119,18 @@ public class PainterPanel extends KPanel{
 				fList.get(i).paint(g);
 			}
 		}
+	}
+	@Override
+	public KComponent findBtn(Point p) {
+		KComponent temp;
+		if((temp = toolBar.findBtn(p)) != null) {
+			return temp;
+		} 
+		if ((temp = menuBar.findBtn(p)) != null) {
+			return temp;
+		}
+		
+		return null;
 	}
 	@Override
 	public void initial() {
@@ -151,9 +164,9 @@ public class PainterPanel extends KPanel{
 		cbBlue.setBounds(505, 85);
 		cbBlack.setBounds(575, 85);
 		
-		btnRect.addKActionListener(fl);
-		btnOval.addKActionListener(fl);
-		btnLine.addKActionListener(fl);
+		btnRect.addKActionListener(pl);
+		btnOval.addKActionListener(pl);
+		btnLine.addKActionListener(pl);
 		
 		btnMove.addKActionListener(el);
 		btnGroup.addKActionListener(el);
@@ -167,15 +180,15 @@ public class PainterPanel extends KPanel{
 		toolBar.add(btnOval);
 		toolBar.add(btnLine);
 		
-		toolBar.add(btnMove);
 		toolBar.add(btnGroup);
+		toolBar.add(btnMove);
 		toolBar.add(btnClear);
 		
 		toolBar.add(cbRed);
 		toolBar.add(cbBlue);
 		toolBar.add(cbBlack);
 		
-		toolBar.addKActionListener(fl);
+		toolBar.addKActionListener(pl);
 		
 		this.add(toolBar);
 	}
@@ -183,38 +196,41 @@ public class PainterPanel extends KPanel{
 		miOpen = new KMenuItem("Open");
 		miSave = new KMenuItem("Save");
 		miFull = new KMenuItem("Full");
+		miMini = new KMenuItem("Mini");
 		
 		miOpen.setBounds(245, 45);
 		miSave.setBounds(315, 45);
 		miFull.setBounds(245, 45);
+		miMini.setBounds(315, 45);
 		
-		miOpen.addKActionListener(fl);
-		miSave.addKActionListener(fl);
-		miFull.addKActionListener(fl);
+		miOpen.addKActionListener(pl);
+		miSave.addKActionListener(pl);
+		miFull.addKActionListener(pl);
+		miMini.addKActionListener(pl);
 	}
 	public void setMenu() {
 		mnFile = new KMenu("Flie");
-		mnView = new KMenu("view");
+		mnView = new KMenu("View");
 		
 		mnFile.setBounds(15, 45);
 		mnView.setBounds(85, 45);
 		
-		mnFile.addKActionListener(fl);
-		mnView.addKActionListener(fl);
+		mnFile.addKActionListener(pl);
+		mnView.addKActionListener(pl);
 		
-		mnFile.addMenuItem(miOpen);
-		mnFile.addMenuItem(miSave);
-		
-		mnView.addMenuItem(miFull);
+		mnFile.add(miOpen);
+		mnFile.add(miSave);
+		mnView.add(miFull);
+		mnView.add(miMini);
 	}
 	public void setMenuBar() {
-		menuBar.addKActionListener(fl);
-		menuBar.addMenu(mnFile);
-		menuBar.addMenu(mnView);
+		menuBar.addKActionListener(pl);
+		menuBar.add(mnFile);
+		menuBar.add(mnView);
 		
 		this.add(menuBar);
 	}
-	public void setType(Object b) {
+	public void setBtnType(Object b) {
 		if(b != null) {
 			mnFile.showItem(false);
 			mnView.showItem(false);
@@ -237,7 +253,7 @@ public class PainterPanel extends KPanel{
 				
 			} else if(b == mnView) {
 				System.out.println("View");
-				menuType = VIEW_MENU;
+				menuType = EDIT_MENU;
 				mnView.showItem(true);
 			} 
 		}
@@ -257,16 +273,31 @@ public class PainterPanel extends KPanel{
 	public void setColorType(Object b) {
 		if(b == cbBlack) {
 			System.out.println("black");
-			colorType = BLACK_COLOR;
-			cbBlack.setCheck();
+			if(!(cbBlack.getCheck())){
+				colorType = BLACK_COLOR;
+				cbBlack.setCheck();
+			} else {
+				colorType = TYPE_DEFAULT;
+				cbBlack.setCheck();
+			}
 		} else if(b == cbRed) {
 			System.out.println("Red");
-			colorType = RED_COLOR;
-			cbRed.setCheck();
+			if(!(cbRed.getCheck())){
+				colorType = RED_COLOR;
+				cbRed.setCheck();
+			} else {
+				colorType = TYPE_DEFAULT;
+				cbRed.setCheck();
+			}
 		} else if (b == cbBlue) {
 			System.out.println("blue");
-			colorType = BLUE_COLOR;
-			cbBlue.setCheck();
+			if(!(cbBlue.getCheck())){
+				colorType = BLUE_COLOR;
+				cbBlue.setCheck();
+			} else {
+				colorType = TYPE_DEFAULT;
+				cbBlue.setCheck();
+			}
 		}
 	}
 	public void setFigureColor(Graphics g) {
@@ -315,14 +346,4 @@ public class PainterPanel extends KPanel{
 		} 
 	}
 	
-	public KComponent find(Point p) {
-		KComponent temp;
-		if((temp = toolBar.findBtn(p)) != null) {
-			return temp;
-		} 
-		if ((temp = menuBar.findBtn(p)) != null) {
-			return temp;
-		}
-		return null;
-	}
 }

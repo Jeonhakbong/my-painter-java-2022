@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public abstract class KComponent{
+	protected ArrayList<KActionListener> myActListeners = new ArrayList<>();;
 	protected int x, y, width, height;
 	protected String name = null;
 	protected String text = null;
@@ -16,11 +17,14 @@ public abstract class KComponent{
 	public KComponent(String name) {
 		this.name = name;
 	}
-	// public abstract void draw(Graphics g);
-	public void processMouseEvent(MouseEvent e) {}
-	public void paint(Graphics g) {}
+	public void addKActionListener(KActionListener al) {
+		myActListeners.add(al);
+	}
+	public abstract void paint(Graphics g);
+	public void processMouseEvent(MouseEvent e) {
+		// empty.
+	}
 	public void setBounds(int x, int y) {
-		// TODO Auto-generated method stub
 		this.x = x;
 		this.y = y;
 	}
@@ -30,6 +34,6 @@ public abstract class KComponent{
 	}
 	public boolean isCursorOn(Point p) {
 		return (((x <= p.x) && (p.x <= x+width)) && 
-				((y < p.y) && (p.y <= y+height)));
+				((y <= p.y) && (p.y <= y+height)));
 	}
 }

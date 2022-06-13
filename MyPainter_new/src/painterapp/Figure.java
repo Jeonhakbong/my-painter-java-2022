@@ -2,6 +2,7 @@ package painterapp;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import mylib.KComponent;
@@ -107,6 +108,7 @@ class FigureGroup extends Figure {
 		endX = tempMaxX;
 		endY = tempMaxY;
 	}
+
 }
 
 class Rect extends Figure {

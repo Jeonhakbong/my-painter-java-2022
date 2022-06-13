@@ -3,38 +3,37 @@ package mylib;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.awt.Point;
 
 public class KContainer extends KComponent{
-	public ArrayList<KComponent> compoList = new ArrayList<>();
+	protected ArrayList<KComponent> compoList = new ArrayList<>();
 	
-	
-	protected ArrayList<KActionListener> myActListeners;
 	
 	public KContainer() {
-		//empty.
+		// empty.
 	}
-	public void initial() {}
-	
+	public void initial() {
+		// empty.
+	}
 	public KContainer(String name) {
 		super(name);
-		
-		myActListeners = new ArrayList<>();
 	}
 	public void add(KComponent kc) {
 		compoList.add(kc);
 	}
-	
-	@Override
-	public void processMouseEvent(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+	public KComponent findBtn(Point p) {
+		if(!(compoList.isEmpty())) {
+			for(int i = 0 ; i < compoList.size(); i++) {
+				if(compoList.get(i).isCursorOn(p)) {
+					return compoList.get(i);
+				} 
+			} 
+		}
+		return null;
 	}
 	@Override
 	public void paint(Graphics g) {
 		// TODO Auto-generated method stub
 		
-	}
-	public void addKActionListener(KActionListener al) {
-		myActListeners.add(al);
 	}
 }

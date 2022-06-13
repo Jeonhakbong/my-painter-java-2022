@@ -13,16 +13,11 @@ public class KToolBar extends KContainer{
 		super(name);
 		this.bList = new ArrayList<>();
 		this.setBounds(10, 80);
-		this.setSize(700, 40);
+		this.setSize(650, 40);
 	}
 	
 	public void setActionCommand(String c) {
 		this.text = c;
-	}
-	
-	@Override
-	public void initial() {
-		// empty.
 	}
 	
 	@Override
@@ -35,19 +30,4 @@ public class KToolBar extends KContainer{
 		}
 	}
 	
-	public void addBtn(KButton kb) {
-		// TODO Auto-generated method stub
-		bList.add(kb);
-	}
-	
-	public KComponent findBtn(Point p) {
-		if(!(compoList.isEmpty())) {
-			for(int i = 0 ; i < compoList.size(); i++) {
-				if(compoList.get(i).isCursorOn(p)) {
-					return compoList.get(i);
-				}
-			}
-		}
-		return null;
-	}
 }

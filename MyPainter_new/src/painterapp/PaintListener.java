@@ -6,16 +6,16 @@ import mylib.KActionListener;
 import mylib.KFrame;
 import mylib.KPanel;
 
-public class FigureListener implements KActionListener{
+public class PaintListener implements KActionListener{
 	PainterPanel pp;
 	
-	public FigureListener(PainterPanel p) {
+	public PaintListener(PainterPanel p) {
 		pp =  p;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		pp.setType(e.getSource());
+		pp.setBtnType(e.getSource());
 	}
 	
 }

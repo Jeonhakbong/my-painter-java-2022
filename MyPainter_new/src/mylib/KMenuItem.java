@@ -6,9 +6,6 @@ import java.awt.event.MouseEvent;
 
 public class KMenuItem extends KAbstractButton{
 	protected boolean visible = false;
-
-	static int FILE = 4;
-	static int VIEW = 5;
 	
 	public KMenuItem(String name) {
 		super(name);

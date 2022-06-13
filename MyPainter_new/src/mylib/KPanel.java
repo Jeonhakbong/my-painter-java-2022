@@ -5,8 +5,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import painterapp.PainterButton;
-import painterapp.FigureListener;
+import painterapp.PaintListener;
 
 public class KPanel extends KContainer{
 	protected KToolBar toolBar;
@@ -24,4 +23,5 @@ public class KPanel extends KContainer{
 		this.toolBar = new KToolBar("toolbar");
 		this.menuBar = new KMenuBar("menubar");
 	}
+
 }

@@ -26,4 +26,7 @@ public class KCheckBox extends KAbstractButton{
 			check = true;
 		}
 	}
+	public boolean getCheck() {
+		return check;
+	}
 }

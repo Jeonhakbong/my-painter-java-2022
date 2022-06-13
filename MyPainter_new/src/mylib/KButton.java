@@ -13,7 +13,6 @@ public class KButton extends KAbstractButton {
 	}
 	
 	// methods.
-	
 	@Override
 	public void paint(Graphics g) {
 		g.drawRect(x, y, width, height);
